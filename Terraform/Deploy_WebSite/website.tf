@@ -7,6 +7,10 @@ variable "env" {
   type    = string
   default = "dev"
 }
+terraform {
+  backend "s3" {
+    }
+}
 
 ####################################################################
 # On recherche la derniere AMI créée avec le Name TAG PackerAnsible-Apache
