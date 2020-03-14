@@ -5,7 +5,7 @@ provider "aws" {
 # Variables normalement dans un autre fichier (variables.tf) mais pour faire simple.... ca marche aussi !!!
 variable "env" {
   type    = string
-  default = "dev"
+  default = "DEV"
 }
 terraform {
   backend "s3" {
@@ -20,10 +20,10 @@ data "aws_ami" "selected" {
     values = ["available"]
 
   }
-  #filter {
-  # name   = "tag:Name"
-  #  values = ["${var.env}-WebApache-AMI"]
-  #}
+  filter {
+   name   = "tag:Name"
+    values = ["${var.env}-WebApache-AMI"]
+  }
   most_recent = true
 }
 
