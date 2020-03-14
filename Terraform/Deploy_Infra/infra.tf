@@ -1,11 +1,22 @@
-provider "aws" {
-  region = "us-east-2"
+# Region par défaut
+variable "aws-region" {
+  default = "us-east-2"
 }
 
+# Type Instance par défaut
+variable "instance_type" {
+  default = "t2.micro"
+}
+# Type de déploiement
 variable "env" {
   type    = string
-  default = "dev"
+  default = "DEV"
 }
+
+provider "aws" {
+  region = "${var.aws-region}"
+}
+
 terraform {
   backend "s3" {
     }
@@ -39,7 +50,7 @@ resource "aws_subnet" "subnet-public-1" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = "true"
-  availability_zone       = "us-east-2a"
+  availability_zone       = "${var.aws-region}a"
   tags = {
     Name = "${var.env}-subnet-public-1"
   }
@@ -50,7 +61,7 @@ resource "aws_subnet" "subnet-public-2" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = "10.0.2.0/24"
   map_public_ip_on_launch = "true"
-  availability_zone       = "us-east-2b"
+  availability_zone       = "${var.aws-region}b"
   tags = {
     Name = "${var.env}-subnet-public-2"
   }
@@ -61,7 +72,7 @@ resource "aws_subnet" "subnet-public-3" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = "10.0.3.0/24"
   map_public_ip_on_launch = "true"
-  availability_zone       = "us-east-2c"
+  availability_zone       = "${var.aws-region}c"
   tags = {
     Name = "${var.env}-subnet-public-3"
   }
@@ -73,7 +84,7 @@ resource "aws_subnet" "subnet-private-1" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = "10.0.4.0/24"
   map_public_ip_on_launch = "false"
-  availability_zone       = "us-east-2a"
+  availability_zone       = "${var.aws-region}a"
   tags = {
     Name = "${var.env}-subnet-private-1"
   }
@@ -84,7 +95,7 @@ resource "aws_subnet" "subnet-private-2" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = "10.0.5.0/24"
   map_public_ip_on_launch = "false"
-  availability_zone       = "us-east-2b"
+  availability_zone       = "${var.aws-region}b"
   tags = {
     Name = "${var.env}-subnet-private-2"
   }
@@ -95,7 +106,7 @@ resource "aws_subnet" "subnet-private-3" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = "10.0.6.0/24"
   map_public_ip_on_launch = "false"
-  availability_zone       = "us-east-2c"
+  availability_zone       = "${var.aws-region}c"
   tags = {
     Name = "${var.env}-subnet-private-3"
   }
@@ -103,8 +114,8 @@ resource "aws_subnet" "subnet-private-3" {
 
 # Nat Instance
 resource "aws_instance" "nat" {
-  ami                    = "ami-02f9d535e6f6070f7"
-  instance_type          = "t2.micro"
+  ami                    = "ami-01bb0dc93a0622b92"
+  instance_type          = "${var.instance_type}"
   subnet_id              = aws_subnet.subnet-public-1.id
   vpc_security_group_ids = [aws_security_group.allow_nat.id]
   source_dest_check      = "false"
