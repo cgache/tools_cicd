@@ -1,10 +1,18 @@
-provider "aws" {
-  region = "${var.default-aws-region}"
+variable "default-aws-region" {
+  default = "us-east-2"
+}
+
+variable "instance_type" {
+  default = "t2.micro"
 }
 
 variable "env" {
   type    = string
   default = "DEV"
+}
+
+provider "aws" {
+  region = "${var.default-aws-region}"
 }
 
 terraform {
@@ -105,7 +113,7 @@ resource "aws_subnet" "subnet-private-3" {
 # Nat Instance
 resource "aws_instance" "nat" {
   ami                    = "ami-01bb0dc93a0622b92"
-  instance_type          = "t2.micro"
+  instance_type          = "${var.instance_type}"
   subnet_id              = aws_subnet.subnet-public-1.id
   vpc_security_group_ids = [aws_security_group.allow_nat.id]
   source_dest_check      = "false"
