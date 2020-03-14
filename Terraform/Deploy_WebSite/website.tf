@@ -7,7 +7,7 @@ variable "env" {
   type    = string
   default = "dev"
 }
-
+aaaa
 ####################################################################
 # On recherche la derniere AMI créée avec le Name TAG PackerAnsible-Apache
 data "aws_ami" "selected" {
