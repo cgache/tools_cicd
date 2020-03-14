@@ -22,7 +22,7 @@ data "aws_ami" "selected" {
   }
   filter {
     name   = "tag:Name"
-    values = ["PackerAnsible-Apache"]
+    values = ["${var.env}-WebApache-AMI"]
   }
   most_recent = true
 }
