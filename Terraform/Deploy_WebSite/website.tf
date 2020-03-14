@@ -20,10 +20,10 @@ data "aws_ami" "selected" {
     values = ["available"]
 
   }
-  filter {
-    name   = "tag:Name"
-    values = ["${var.env}-WebApache-AMI"]
-  }
+  #filter {
+  # name   = "tag:Name"
+  #  values = ["${var.env}-WebApache-AMI"]
+  #}
   most_recent = true
 }
 
