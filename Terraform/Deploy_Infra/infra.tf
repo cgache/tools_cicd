@@ -1,11 +1,13 @@
+# Region par défaut
 variable "aws-region" {
   default = "us-east-2"
 }
 
+# Type Instance par défaut
 variable "instance_type" {
   default = "t2.micro"
 }
-
+# Type de déploiement
 variable "env" {
   type    = string
   default = "DEV"
